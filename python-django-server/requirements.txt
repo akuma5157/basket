@@ -1,0 +1,22 @@
+django
+requests
+configparser
+gunicorn
+jsonschema>=2.5.1,<3.0.0
+
+# swagger-django-generator
+# Never versions invalidates some of the specs used for testing
+swagger-spec-validator==2.1.0
+
+apitools
+swagger-parser
+click
+nose
+parameterized
+rstr
+django-cors-headers
+
+# The following requirements are required by jsonschema
+# in order to do proper validation of certain formats.
+rfc3987
+strict-rfc3339
