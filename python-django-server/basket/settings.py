@@ -25,12 +25,19 @@ SECRET_KEY = 'uh+*^+1o-y-ui%!qpl^+(6k&l#rnknwbf1_(aeyqur7rm9by^n'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
+STUBS_CLASS = 'core.implementation.Implementation'
+
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:4200"
+]
 
 # Application definition
 
 INSTALLED_APPS = [
+    'core',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,6 +47,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -118,3 +126,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
