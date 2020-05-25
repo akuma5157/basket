@@ -1,0 +1,58 @@
+---
+swagger: "2.0"
+info:
+  description: "REST API doc for Basket."
+  version: "0.1"
+  title: "Basket"
+  contact:
+    email: "akuma5157@gmail.com"
+host: "localhost:8000"
+basePath: "/api/v01"
+tags:
+  - name: "time"
+    description: "Operations for time"
+schemes:
+  - "http"
+security: []
+#- basicAuth: []
+paths:
+  /time/:
+    get:
+      tags:
+        - "time"
+      summary: "get server system time"
+      description: "Returns server system time"
+      operationId: "getTime"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Time"
+        400:
+          description: "Invalid Request"
+        404:
+          description: "Job not found"
+
+securityDefinitions:
+  basicAuth:
+    type: "basic"
+    x-basicInfoFunc: "app.basic_auth"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+definitions:
+  Time:
+    type: string
+  ApiResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      type:
+        type: "string"
+      message:
+        type: "string"
