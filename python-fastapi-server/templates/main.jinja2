@@ -1,0 +1,20 @@
+from __future__ import annotations
+
+from fastapi import FastAPI
+
+{{imports}}
+
+try:
+    from .implementation import Implementation
+    implementation = Implementation()
+except ModuleNotFoundError as e:
+    raise NotImplementedError
+
+app = FastAPI()
+
+
+{% for operation in operations %}
+@app.{{operation.type}}('{{operation.snake_case_path}}', response_model={{operation.response}})
+def {{operation.function_name}}({{operation.snake_case_arguments}}) -> {{operation.response}}:
+    return implementation.{{operation.function_name}}({{operation.snake_case_arguments}})
+{% endfor %}
