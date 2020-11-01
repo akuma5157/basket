@@ -10,8 +10,13 @@ try:
 except ModuleNotFoundError as e:
     raise NotImplementedError
 
-app = FastAPI()
-
+app = FastAPI(
+    {% if info %}
+    {% for key,value in info.items() %}
+    {{ key }} = "{{ value }}",
+    {% endfor %}
+    {% endif %}
+)
 
 {% for operation in operations %}
 @app.{{operation.type}}('{{operation.snake_case_path}}', response_model={{operation.response}})
