@@ -6,18 +6,109 @@ info:
     email: akuma5157@gmail.com
   version: "0.1"
 servers:
-- url: http://localhost:8000/api/v01
+- url: http://localhost:8000/
 tags:
 - name: time
   description: Operations for time
 paths:
+  /validate-finite-values-entity/:
+    post:
+      tags:
+      - slot
+      summary: validate finite values entity
+      operationId: validate_finite_values_entity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SlotValidationFiniteValuesRequest"
+            example:
+              invalid_trigger: invalid_ids_stated
+              key: ids_stated
+              name: govt_id
+              reuse: true
+              support_multiple: true
+              pick_first: false
+              supported_values:
+              - pan
+              - aadhaar
+              - college
+              - corporate
+              - dl
+              - voter
+              - passport
+              - local
+              type:
+              - id
+              validation_parser: finite_values_entity
+              values:
+              - entity_type: id
+                value: college
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlotValidationResult'
+              example:
+                filled: true
+                partially_filled: false
+                trigger: ''
+                parameters:
+                  ids_stated:
+                  - COLLEGE
+
+        400:
+          $ref: '#/components/responses/400Invalid'
+  /validate-numeric-entity/:
+    post:
+      tags:
+      - slot
+      summary: validate numeric entity
+      operationId: validate_numeric_entity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SlotValidationnumericRequest"
+            example:
+              invalid_trigger: invalid_age
+              key: age_stated
+              name: age
+              reuse: true
+              pick_first: true
+              type:
+              - number
+              validation_parser: numeric_values_entity
+              numeric: x>=18 and x<=30
+              var_name: x
+              values:
+              - entity_type: number
+                value: 23
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlotValidationResult'
+              example:
+                filled: true
+                partially_filled: false
+                trigger: ''
+                parameters:
+                  age_stated: 23
+        400:
+          description: Invalid Request
+          content: {}
   /time/:
     get:
       tags:
       - time
       summary: get server system time
       description: Returns server system time
-      operationId: getTime
+      operationId: get_time
       responses:
         200:
           description: successful operation
@@ -28,11 +119,91 @@ paths:
         400:
           description: Invalid Request
           content: {}
-        404:
-          description: Job not found
-          content: {}
+
 components:
+  responses:
+    400Invalid:
+      description: Invalid Request
+      content: {}
   schemas:
+    SlotValidationnumericRequest:
+      type: object
+      properties:
+        invalid_trigger:
+          type: string
+        key:
+          type: string
+        name:
+          type: string
+        reuse:
+          type: boolean
+        pick_first:
+          type: boolean
+        type:
+          type: array
+          items:
+            type: string
+        validation_parser: 
+          type: string
+        numeric: 
+          type: string
+        var_name:
+          type: string
+        values:
+          type: array
+          items:
+            type: object
+            properties:
+              entity_type:
+                type: string
+              value:
+                type: string
+    SlotValidationFiniteValuesRequest:
+      type: object
+      properties:
+        invalid_trigger:
+          type: string
+        key:
+          type: string
+        name:
+          type: string
+        reuse:
+          type: boolean
+        support_multiple:
+          type: boolean
+        pick_first:
+          type: boolean
+        supported_values:
+          type: array
+          items:
+            type: string
+        type:
+          type: array
+          items:
+            type: string
+        
+        validation_parser: 
+          type: string
+        values:
+          type: array
+          items:
+            type: object
+            properties:
+              entity_type:
+                type: string
+              value:
+                type: string
+    SlotValidationResult:
+      type: object
+      properties:
+        filled:
+          type: boolean
+        partially_filled:
+          type: boolean
+        trigger:
+          type: string
+        parameters:
+          type: string
     Time:
       type: string
     ApiResponse:
