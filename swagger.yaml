@@ -71,7 +71,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/SlotValidationnumericRequest"
+              $ref: "#/components/schemas/SlotValidationNumericRequest"
             example:
               invalid_trigger: invalid_age
               key: age_stated
@@ -126,7 +126,7 @@ components:
       description: Invalid Request
       content: {}
   schemas:
-    SlotValidationnumericRequest:
+    SlotValidationNumericRequest:
       type: object
       properties:
         invalid_trigger:
@@ -139,13 +139,17 @@ components:
           type: boolean
         pick_first:
           type: boolean
+          default: False
+        support_multiple:
+          type: boolean
+          default: True
         type:
           type: array
           items:
             type: string
         validation_parser: 
           type: string
-        numeric: 
+        constraint: 
           type: string
         var_name:
           type: string
@@ -171,8 +175,10 @@ components:
           type: boolean
         support_multiple:
           type: boolean
+          default: True
         pick_first:
           type: boolean
+          default: False
         supported_values:
           type: array
           items:
@@ -203,7 +209,8 @@ components:
         trigger:
           type: string
         parameters:
-          type: string
+          type: object
+          additionalProperties: true
     Time:
       type: string
     ApiResponse:
