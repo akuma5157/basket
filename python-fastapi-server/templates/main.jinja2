@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from fastapi.middleware.cors import CORSMiddleware
+
 from fastapi import FastAPI
 
 {{imports}}
@@ -16,6 +18,18 @@ app = FastAPI(
     {{ key }} = "{{ value }}",
     {% endfor %}
     {% endif %}
+)
+
+origins = [
+    "http://localhost:4200",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 {% for operation in operations %}
