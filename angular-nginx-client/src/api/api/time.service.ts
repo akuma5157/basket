@@ -26,7 +26,7 @@ import { Configuration }                                     from '../configurat
 @Injectable()
 export class TimeService {
 
-    protected basePath = 'http://localhost:8000/api/v01';
+    protected basePath = 'http://localhost:8000';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
 
@@ -81,7 +81,7 @@ export class TimeService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Time>(`${this.basePath}/time/`,
+        return this.httpClient.request<Time>('get',`${this.basePath}/time/`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

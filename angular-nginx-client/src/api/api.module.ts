@@ -3,6 +3,7 @@ import { Configuration } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
 
+import { SlotService } from './api/slot.service';
 import { TimeService } from './api/time.service';
 
 @NgModule({
@@ -10,6 +11,7 @@ import { TimeService } from './api/time.service';
   declarations: [],
   exports:      [],
   providers: [
+    SlotService,
     TimeService ]
 })
 export class ApiModule {
